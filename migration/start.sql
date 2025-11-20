@@ -2,15 +2,23 @@ Drop DATABASE IF EXISTS telehds;
 
 CREATE DATABASE telehds;
 use telehds;
-create table employee(
+create table user(
     id int auto_increment PRIMARY KEY,
-    fname varchar(255),
-    lname varchar(255)
+    email varchar(255) UNIQUE ,
+    password varchar(255),
+    role json
 );
 
-INSERT INTO employee(fname, lname)
+INSERT INTO user(email, password)
 values ('Peter', 'Pan'),
        ('Donald', 'Trump'),
        ('George', 'Busch');
 
-
+CREATE TABLE file(
+    id int auto_increment PRIMARY KEY ,
+    name varchar(255),
+    path varchar(255) UNIQUE ,
+    description varchar(255),
+    userid int ,
+    foreign key (userid) REFERENCES user(id)
+)

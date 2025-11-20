@@ -4,6 +4,6 @@
 
 interface EntityInterface
 {
-    public function getId():bool;
+    public function getId():int;
 
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="pokedex@10.101.105.240" uuid="7c8cdf71-69db-4c89-9c9b-bd1ce0dd0704">
+    <data-source source="LOCAL" name="telehds@localhost" uuid="799c69de-116e-48df-b300-447c1f3c6f94">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mariadb://10.101.105.240:3306/pokedex</jdbc-url>
+      <jdbc-url>jdbc:mariadb://localhost:3306/telehds</jdbc-url>
       <jdbc-additional-properties>
         <property name="database.introspection.mysql.dbe5060" value="true" />
       </jdbc-additional-properties>

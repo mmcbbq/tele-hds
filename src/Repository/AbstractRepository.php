@@ -16,7 +16,7 @@ abstract class AbstractRepository
 
     abstract public function findAll();
     abstract public function findById(int $id);
-    abstract public function create();
+    abstract public function create(array $data);
     abstract public function update(int $id);
     abstract public function delete(int $id);
 

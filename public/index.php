@@ -5,8 +5,17 @@ if ($uri === 'getcustomerfiles') {
     include '../src/Filemanger/getFilesinfo.php';
     exit();
 }elseif ($uri == 'uploadcustomerfile'){
-    include '../src/Filemanger/upload.php';
+    $repo = new FileRepository();
+    var_dump($_POST);
+//    include '../src/Filemanger/upload.php';
     exit();
+}elseif ($uri === 'test'){
+
+//    $data = ['name'=> 'filename', 'path'=> '../data/customer', 'description'=>'wichtig', 'userid'=>1];
+//    $repo->create($data);
+
+
+
 }
 
 function dbcon():PDO
