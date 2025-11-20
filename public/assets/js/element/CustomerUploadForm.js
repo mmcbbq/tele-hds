@@ -23,6 +23,7 @@ export class CustomerUploadForm {
         this.sendUrl = sendUrl;
         this.formData = new FormData();
         this.parent = View;
+        this.uploadDir = './download/customer/'
 
 
 
@@ -35,7 +36,8 @@ export class CustomerUploadForm {
     async sendFile(event){
         event.preventDefault()
         this.formData.append('file',this.uploadFileInput.files[0])
-        this.formData.append('name',this.uploadNameInput.value)
+        this.formData.append('description',this.uploadNameInput.value)
+        this.formData.append('path',this.uploadDir)
 
         const response = await fetch(this.sendUrl,{
             method:'POST',

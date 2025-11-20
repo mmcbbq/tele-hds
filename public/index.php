@@ -6,7 +6,9 @@ if ($uri === 'getcustomerfiles') {
     exit();
 }elseif ($uri == 'uploadcustomerfile'){
     $repo = new FileRepository();
-    var_dump($_POST);
+    $data = array_merge($_POST,['name'=>$_FILES['file']['name'],'userid'=>1]);
+    $file = $repo->create($data);
+    $file->saveFile();
 //    include '../src/Filemanger/upload.php';
     exit();
 }elseif ($uri === 'test'){

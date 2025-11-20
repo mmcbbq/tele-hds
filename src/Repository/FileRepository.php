@@ -12,16 +12,16 @@ class FileRepository extends AbstractRepository
         return $stat->fetchAll(PDO::FETCH_CLASS,"FileEntity");
     }
 
-    public function findById(int $id):FileEntity
+    public function findById(int $id):File
     {
         $con = $this->dbcon();
         $sql = 'SELECT * FROM file where id=:id';
         $stat = $con->prepare($sql);
         $stat->execute([':id'=>$id]);
-        return $stat->fetchAll(PDO::FETCH_CLASS,"FileEntity")[0];
+        return $stat->fetchAll(PDO::FETCH_CLASS,"File")[0];
     }
 
-    public function create(array $data)
+    public function create(array $data):File
     {
         $con = $this->dbcon();
         $sql = 'INSERT INTO file (name, path, description, userid) VALUES
@@ -30,7 +30,7 @@ class FileRepository extends AbstractRepository
         $stat->execute($data);
         $id = $con->lastInsertId();
         $file = $this->findById($id);
-        $file->saveFile();
+        return $file;
     }
 
 

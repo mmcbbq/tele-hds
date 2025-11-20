@@ -17,7 +17,7 @@ values ('Peter', 'Pan'),
 CREATE TABLE file(
     id int auto_increment PRIMARY KEY ,
     name varchar(255),
-    path varchar(255) UNIQUE ,
+    path varchar(255),
     description varchar(255),
     userid int ,
     foreign key (userid) REFERENCES user(id)

@@ -1,6 +1,6 @@
 <?php
 
-class FileEntity implements EntityInterface
+class File implements EntityInterface
 {
 
 
@@ -56,15 +56,12 @@ class FileEntity implements EntityInterface
         $this->userid = $userid;
     }
 
-    public function saveFile()
+    public function saveFile():void
     {
-
         header('Content-Type: application/json');
-//echo json_encode('test');
         $filename = $_FILES['file']['name'];
         $filepath = './download/customer/' . basename($_FILES['file']['name']);
-        $description = $_POST['name'];
-
+        $description = $_POST['description'];
         if (move_uploaded_file($_FILES['file']['tmp_name'], $filepath)) {
             $response = ['data' => [
                 'filename' => $filename,
@@ -75,10 +72,6 @@ class FileEntity implements EntityInterface
             $response = ['data' => [false]];
         }
         echo json_encode($response);
-
-
-
-
     }
 
 
