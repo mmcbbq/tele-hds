@@ -2,7 +2,13 @@
 include '../config/loader.php';
 $uri = str_replace('/','',$_SERVER['REQUEST_URI']);
 if ($uri === 'getcustomerfiles') {
-    include '../src/Filemanger/getFilesinfo.php';
+    $repo = new FileRepository();
+    header('Content-Type: application/json');
+    echo json_encode($repo->findAll());
+
+
+
+//    include '../src/Filemanger/getFilesinfo.php';
     exit();
 }elseif ($uri == 'uploadcustomerfile'){
     $repo = new FileRepository();

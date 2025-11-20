@@ -1,6 +1,6 @@
 <?php
 
-class File implements EntityInterface
+class File implements EntityInterface, JsonSerializable
 {
 
 
@@ -56,7 +56,7 @@ class File implements EntityInterface
         $this->userid = $userid;
     }
 
-    public function saveFile():void
+    public function saveFile(): void
     {
         header('Content-Type: application/json');
         $filename = $_FILES['file']['name'];
@@ -75,4 +75,14 @@ class File implements EntityInterface
     }
 
 
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'path' => $this->path,
+            'description'=> $this->description,
+            'userid' => $this->userid
+        ];
+    }
 }

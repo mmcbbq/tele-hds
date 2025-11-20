@@ -9,7 +9,7 @@ class FileRepository extends AbstractRepository
         $sql = 'SELECT * FROM file';
         $stat = $con->prepare($sql);
         $stat->execute();
-        return $stat->fetchAll(PDO::FETCH_CLASS,"FileEntity");
+        return $stat->fetchAll(PDO::FETCH_CLASS,"File");
     }
 
     public function findById(int $id):File

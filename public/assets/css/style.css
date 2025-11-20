@@ -21,24 +21,24 @@
     color: #f0bf60 !important;
 
 }
-.card-header {
-    color: #fefe02; !important;
-    background-color: #215f9a; !important;
-    font-weight: bolder; !important;
-    border-color:  #fefe02;
-}
-.list-group-item{
-    color: #fefe02; !important;
-    background-color: #215f9a; !important;
-    border-color:  #fefe02;
-}
+/*.card-header {*/
+/*    color: #fefe02; !important;*/
+/*    background-color: #215f9a; !important;*/
+/*    font-weight: bolder; !important;*/
+/*    border-color:  #fefe02;*/
+/*}*/
+/*.list-group-item{*/
+/*    color: #fefe02; !important;*/
+/*    background-color: #215f9a; !important;*/
+/*    border-color:  #fefe02;*/
+/*}*/
 
-.card {
-    color: #fefe02; !important;
-    background-color: #215f9a; !important;
-    border-color:  #fefe02;
-    border-width: 5px;
-}
+/*.card {*/
+/*    color: #fefe02; !important;*/
+/*    background-color: #215f9a; !important;*/
+/*    border-color:  #fefe02;*/
+/*    border-width: 5px;*/
+/*}*/
 
 .dropdown-item  {
     color: #fefe02 !important;
