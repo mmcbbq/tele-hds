@@ -1,5 +1,0 @@
-zone "web.bbq" in {
-	type master;
-	file "/var/lib/bind/web.bbq.fwd";
-};
-

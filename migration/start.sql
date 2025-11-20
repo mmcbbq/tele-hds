@@ -1,7 +1,7 @@
-Drop DATABASE IF EXISTS company;
+Drop DATABASE IF EXISTS telehds;
 
-CREATE DATABASE company;
-use company;
+CREATE DATABASE telehds;
+use telehds;
 create table employee(
     id int auto_increment PRIMARY KEY,
     fname varchar(255),
