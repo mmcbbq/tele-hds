@@ -7,17 +7,15 @@ export class CostumerView extends AbstractView {
         super();
         this.uploadForm = new CustomerUploadForm('.content', 'uploadcustomerfile', this)
         this.filedir = './download/customer/'
-
-
     }
 
 
     async render() {
         this.setContainerClasses(['content', 'container', "justify-content-center"])
         const data = await this.getFiles('getcustomerfiles')
-        console.log(data)
         let color = '';
-
+        const rowContainer = document.createElement('div');
+        rowContainer.classList.add('row', 'row-cols-auto')
         const filesCout = data.length;
         if (filesCout > 0) {
             for (let i = 0; i < filesCout; i++) {
@@ -28,31 +26,34 @@ export class CostumerView extends AbstractView {
                 //         }
 
                 const filesDiv = document.createElement('div');
-                filesDiv.classList.add('card', 'w-50', 'mx-auto', 'my-2');
+                filesDiv.classList.add('card', 'mx-2');
 
 
                 const filesBody = document.createElement('div');
-                filesBody.classList.add("card-body");
+                filesBody.classList.add("card-body", 'm-0', 'p-1');
                 const fileTitle = document.createElement('h5');
-                fileTitle.classList.add('card-title');
+                fileTitle.classList.add('card-title', 'm-2');
                 fileTitle.innerText = data[i].name;
                 const fileText = document.createElement('p');
+                fileText.classList.add('m-0');
                 fileText.innerText = data[i].description;
                 const fileUser = document.createElement('p');
                 fileUser.innerText = data[i].userid;
+                fileUser.classList.add('m-0');
+
                 // const line = document.createElement('div');
                 // line.classList.add(color, 'mx-auto')
                 const fileLink = document.createElement('a');
                 fileLink.href = this.filedir + data[i].name
                 fileLink.innerText = 'Download';
-                fileLink.classList.add('btn', 'btn-primary','btn-sm');
+                fileLink.classList.add('btn', 'btn-primary','btn-sm', 'mx-1');
                 fileLink.download = '';
 
 
                 filesBody.append(fileTitle, fileText, fileUser, fileLink);
 
                 filesDiv.appendChild(filesBody);
-                this.root.appendChild(filesDiv);
+                rowContainer.appendChild(filesDiv);
 
 
                 // line.appendChild(fileLink);
@@ -65,6 +66,7 @@ export class CostumerView extends AbstractView {
             lineDiv.innerText = 'Keine Files';
             this.root.appendChild(lineDiv);
         }
+        this.root.appendChild(rowContainer)
         this.uploadForm.render()
     }
 

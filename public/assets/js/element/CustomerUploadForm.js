@@ -9,7 +9,8 @@ export class CustomerUploadForm {
 
         this.uploadFileInput = document.createElement('input');
         this.uploadFileInput.type = 'file';
-        this
+        this.uploadFileInput.addEventListener('change',this.checkFileSize.bind(this))
+
 
         this.uploadNameInput = document.createElement('input');
         this.uploadNameInput.type = 'text';
@@ -18,12 +19,17 @@ export class CustomerUploadForm {
         this.uploadButton = document.createElement('button');
         this.uploadButton.innerText = 'Senden'
         this.uploadButton.addEventListener('click',this.sendFile.bind(this))
-        this
+
+        this.errorMes = document.createElement('div');
+
+
         this.uploadForm.append(this.uploadFileInput,this.uploadNameInput,this.uploadButton);
         this.sendUrl = sendUrl;
         this.formData = new FormData();
         this.parent = View;
-        this.uploadDir = './download/customer/'
+        this.uploadDir = './download/customer/';
+
+
 
 
 
@@ -57,9 +63,19 @@ export class CustomerUploadForm {
         setTimeout(()=>{messageDiv.style.display = 'none'},5000)
     }
 
+    checkFileSize(){
+        const filseSize = this.uploadFileInput.files[0].size;
+        if (filseSize > 6000000){
+            this.uploadForm.reset();
+            this.errorMes.innerText = 'File to big';
+
+        }
+    }
+
 
     render(){
-        this.root.appendChild(this.uploadForm)
+        this.root.appendChild(this.uploadForm);
+        this.root.appendChild(this.errorMes);
 
     }
 

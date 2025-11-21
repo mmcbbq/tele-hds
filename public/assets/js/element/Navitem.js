@@ -3,7 +3,7 @@ export class Navitem {
         this.name = name;
         this.items = items;
         this.ele = document.createElement('li');
-        this.ele.classList.add('nav-item', 'px-5');
+        this.ele.classList.add('nav-item', 'px-1');
         if (items.length == 0) {
 
             this.addEvent(callback);
@@ -12,9 +12,12 @@ export class Navitem {
         }
     }
 
+    setClasses(classes){
+        this.ele.className = '';
+        this.ele.classList.add(...classes)
+    }
+
     render(parent) {
-
-
         const navA = document.createElement('a');
         navA.classList.add('nav-link');
         navA.setAttribute('id', this.name + 'link')
@@ -65,8 +68,6 @@ export class Navitem {
 
     addEvent(callback) {
         this.ele.addEventListener('click', callback)
-
-
     }
 
     //

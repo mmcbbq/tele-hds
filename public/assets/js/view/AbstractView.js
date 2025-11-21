@@ -3,6 +3,7 @@
 export class AbstractView{
 
     constructor(rootSelector = '.content') {
+        this.rootSelector = rootSelector;
         this.root =  document.querySelector(rootSelector);
     }
 

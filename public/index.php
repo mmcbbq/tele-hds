@@ -5,36 +5,47 @@ if ($uri === 'getcustomerfiles') {
     $repo = new FileRepository();
     header('Content-Type: application/json');
     echo json_encode($repo->findAll());
-
-
-
-//    include '../src/Filemanger/getFilesinfo.php';
     exit();
 }elseif ($uri == 'uploadcustomerfile'){
+
+
+
     $repo = new FileRepository();
     $data = array_merge($_POST,['name'=>$_FILES['file']['name'],'userid'=>1]);
     $file = $repo->create($data);
     $file->saveFile();
 //    include '../src/Filemanger/upload.php';
     exit();
-}elseif ($uri === 'test'){
+}elseif ($uri === 'login') {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $repo = new UserRepository();
 
-//    $data = ['name'=> 'filename', 'path'=> '../data/customer', 'description'=>'wichtig', 'userid'=>1];
-//    $repo->create($data);
 
+    $user = $repo->findByEmail($email);
+    if (password_verify($password, $user->getPassword())) {
+        header('Content-Type: application/json');
 
+    } else {
+        header('Content-Type: application/json');
+        echo json_encode(['data' => [
+            'error' => 'something webt wrong'
+        ]]);
+    }
+}elseif ($uri === 'signup'){
+    $repo = new UserRepository();
+//    $data = ['email'=>'test2@test.de','password'=>'123'];
+    $user = $repo->create($_POST);
+    setcookie('login', json_encode($user), [
+        'expires' => 0
+    ]);
+//    header('Content-Type: application/json');
+//    echo json_encode($user);
+    exit();
 
 }
 
-function dbcon():PDO
-{
-    $dbHost = $_ENV['DB_HOST'];
-    $dbName = $_ENV['DB_NAME'];
-    $dbUser = $_ENV['DB_USER'];
-    $dbPw = $_ENV['DB_USER_PW'];
 
-    return new PDO("mysql:host=$dbHost;dbname=$dbName;charset=utf8mb4", $dbUser, $dbPw);
-}
 ?>
 <!doctype html>
 <html lang='en'>

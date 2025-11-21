@@ -7,25 +7,25 @@ import {StoerungView} from "./view/StoerungView.js";
 import {StartView} from "./view/StartView.js";
 import {BusinessView} from "./view/BusinessView.js";
 import {CostumerView} from "./view/CostumerView.js";
+import {UserForm} from "./element/UserForm.js";
+import {SignupView} from "./view/SignupView";
 
 
 const stoerungView = new StoerungView();
 const startView = new StartView();
 const businessView = new BusinessView();
 const customer = new CostumerView();
+const signupView = new SignupView();
 
 
 const navItem1 = new Navitem('Start',startView.render.bind(startView)) ;
 const navItem2 = new Navitem('Businessangebote',businessView.render.bind(businessView)) ;
 
-function downloadsPage() {
-    return undefined;
-}
-
-const navItem3 = new Navitem('Service',[stoerungView.render.bind(stoerungView),downloadsPage,speedtestPage],['Störung','Downloads','Speedtest']) ;
+const navItem3 = new Navitem('Service',[stoerungView.render.bind(stoerungView),()=>{},speedtestPage],['Störung','Downloads','Speedtest']) ;
 const navItem4 = new Navitem('Kundenbereich',customer.render.bind(customer)) ;
-
-const navItmes = [navItem1, navItem2, navItem3, navItem4];
+const navItme5 = new Navitem('Login',signupView.render.bind(signupView))
+navItme5.setClasses(['nav-item', 'px-1','ms-auto'])
+const navItmes = [navItem1, navItem2, navItem3, navItem4, navItme5];
 const navbar = new Navbar(".navspace",navItmes);
 
 
@@ -47,30 +47,7 @@ function kundenbereichPage() {
     container.innerText = 'Kundenbereich';
 }
 
-
-function test(){
-    console.log('resrsetesgsd')
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 navbar.render();
-startView.render()
-document.getElementById('Startlink').classList.add('active')
-
-
-
-
-
+startView.render();
+document.getElementById('Startlink').classList.add('active');
 
