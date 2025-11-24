@@ -43,10 +43,10 @@ class UserRepository extends AbstractRepository
     public function findByEmail(string $email):User
     {
         $con = $this->dbcon();
-        $sql = 'SELECT * FROM user where id=:email';
+        $sql = 'SELECT * FROM user where email=:email';
         $stat = $con->prepare($sql);
         $stat->execute([':email'=>$email]);
-        return $stat->fetchAll(PDO::FETCH_CLASS,"File")[0];
+        return $stat->fetchAll(PDO::FETCH_CLASS,"User")[0];
 
     }
 }

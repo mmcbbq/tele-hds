@@ -6,8 +6,11 @@ if ($uri === 'getcustomerfiles') {
     header('Content-Type: application/json');
     echo json_encode($repo->findAll());
     exit();
-}elseif ($uri == 'uploadcustomerfile'){
-
+}elseif ($uri == 'checkautho') {
+    require_once '../src/Security/checkAutho.php';
+    exit();
+}
+elseif ($uri == 'uploadcustomerfile'){
 
 
     $repo = new FileRepository();
@@ -17,21 +20,7 @@ if ($uri === 'getcustomerfiles') {
 //    include '../src/Filemanger/upload.php';
     exit();
 }elseif ($uri === 'login') {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $repo = new UserRepository();
-
-
-    $user = $repo->findByEmail($email);
-    if (password_verify($password, $user->getPassword())) {
-        header('Content-Type: application/json');
-
-    } else {
-        header('Content-Type: application/json');
-        echo json_encode(['data' => [
-            'error' => 'something webt wrong'
-        ]]);
-    }
+require_once '../src/Security/login.php';
 }elseif ($uri === 'signup'){
     $repo = new UserRepository();
 //    $data = ['email'=>'test2@test.de','password'=>'123'];

@@ -40,6 +40,7 @@ export class CustomerUploadForm {
     }
 
     async sendFile(event){
+        const token = localStorage.getItem('jwt');
         event.preventDefault()
         this.formData.append('file',this.uploadFileInput.files[0])
         this.formData.append('description',this.uploadNameInput.value)
@@ -47,6 +48,9 @@ export class CustomerUploadForm {
 
         const response = await fetch(this.sendUrl,{
             method:'POST',
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            },
             body: this.formData,
         })
         const result = await response.json()

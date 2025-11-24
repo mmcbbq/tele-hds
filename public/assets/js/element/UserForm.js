@@ -25,20 +25,20 @@ export class UserForm {
         this.formData.append('email', this.emailInput.value)
         this.formData.append('password', this.passwordInput.value)
 
-        const response = await fetch(this.sendURL,{
+        const response = await fetch(this.sendURL, {
             method: 'POST',
             body: this.formData
         })
 
 
         const result = await response.json();
-
-         document.cookie = 'data = ' + result.email + result
+        localStorage.setItem('jwt',await result.token)
+        console.log(result.token)
         return result
     }
 
-    render(){
-        this.form.append(this.emailInput,this.passwordInput,this.sendBut)
+    render() {
+        this.form.append(this.emailInput, this.passwordInput, this.sendBut)
         this.root.appendChild(this.form)
     }
 }
