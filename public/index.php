@@ -36,9 +36,7 @@ if ($uri === 'getcustomerfiles') {
     $repo = new UserRepository();
 //    $data = ['email'=>'test2@test.de','password'=>'123'];
     $user = $repo->create($_POST);
-    setcookie('login', json_encode($user), [
-        'expires' => 0
-    ]);
+
 //    header('Content-Type: application/json');
 //    echo json_encode($user);
     exit();

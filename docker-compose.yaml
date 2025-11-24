@@ -9,7 +9,8 @@ services:
       - ./:/var/www/project
     env_file:
       - .env
-
+    command: >
+      sh -c "sed -i '/ServerName/s/.*/ServerName ${SERVER_NAME}/' /etc/apache2/sites-available/project.conf && apache2-foreground"
   mariadb:
     image: mariadb:latest
     container_name: ${DB_HOST}
