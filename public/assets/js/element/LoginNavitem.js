@@ -3,6 +3,7 @@ import {Navitem} from "./Navitem";
 export class LoginNavitem extends Navitem {
 
 
+
     async checkAutho() {
         const token = localStorage.getItem('jwt')
         const response = await fetch('checkautho', {
@@ -40,8 +41,9 @@ export class LoginNavitem extends Navitem {
             navLiUlLiA.classList.add("dropdown-item");
             navLiUlLiA.innerText = 'logout'
             navLiUlLiA.addEventListener('click', (() => {
-                console.log('logout')
+                console.log('logout');
                 localStorage.clear();
+
             }))
             // navLiUlLiA.setAttribute(href=)
 
@@ -50,11 +52,11 @@ export class LoginNavitem extends Navitem {
             this.ele.appendChild(navLiUl)
             this.ele.prepend(navA)
             navA.addEventListener('click', (event) => this.setactive(event))
-            parent.appendChild(this.ele)
-
+            parent.appendChild(this.ele);
 
         } else {
             super.render(parent);
+
         }
     }
 

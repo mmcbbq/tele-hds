@@ -1,10 +1,17 @@
 export class Navbar {
-    constructor(rootSelector, items) {
+    constructor(rootSelector) {
         this.root = document.querySelector(rootSelector);
-        this.items = items;
+        this.items = [];
+
+
+    }
+
+    addItem(item){
+        this.items.push(item);
     }
 
     render() {
+
 
         const nav = document.createElement('nav');
         nav.classList.add('navbar', 'navbar-expand-lg', 'bg-body-tertiary',"custom-navbar")
@@ -19,6 +26,7 @@ export class Navbar {
 
         })
         nav.appendChild(navUl)
+
         this.root.appendChild(nav);
     }
 }

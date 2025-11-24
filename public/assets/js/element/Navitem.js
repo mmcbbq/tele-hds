@@ -40,7 +40,6 @@ export class Navitem {
                     navLiUlLiA.innerText = item
                     navLiUlLiA.addEventListener('click',this.callback[index])
                     // navLiUlLiA.setAttribute(href=)
-
                     navLiUlLi.appendChild(navLiUlLiA);
                     navLiUl.appendChild(navLiUlLi);
 
@@ -49,12 +48,9 @@ export class Navitem {
 
             this.ele.appendChild(navLiUl)
         }
-
         this.ele.prepend(navA)
         navA.addEventListener('click', (event) => this.setactive(event))
         parent.appendChild(this.ele)
-
-
     }
 
     setactive(event) {
