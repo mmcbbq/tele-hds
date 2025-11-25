@@ -9,6 +9,7 @@ class File implements EntityInterface, JsonSerializable
     private string $path;
     private string $description;
     private int $userid;
+    private string $email;
 
 
     public function getDescription(): string
@@ -63,10 +64,12 @@ class File implements EntityInterface, JsonSerializable
         $filepath = './download/customer/' . basename($_FILES['file']['name']);
         $description = $_POST['description'];
         if (move_uploaded_file($_FILES['file']['tmp_name'], $filepath)) {
-            $response = ['data' => [
-                'filename' => $filename,
-                'description' => $description
-            ]
+            $response = [
+//                'filename' => $filename,
+//                'description' => $description,
+                'message' => "$filename hochgeladen",
+                'type' => 'success'
+
             ];
         } else {
             $response = ['data' => [false]];

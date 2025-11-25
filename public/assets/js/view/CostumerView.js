@@ -30,7 +30,7 @@ export class CostumerView extends AbstractView {
                 fileText.classList.add('m-0');
                 fileText.innerText = data[i].description;
                 const fileUser = document.createElement('p');
-                fileUser.innerText = data[i].userid;
+                fileUser.innerText = data[i].email;
                 fileUser.classList.add('m-0');
                 const fileLink = document.createElement('a');
                 fileLink.href = this.filedir + data[i].name

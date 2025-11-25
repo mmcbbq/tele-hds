@@ -1,6 +1,8 @@
 <?php
 include '../config/loader.php';
-
+set_error_handler(function($severity, $message, $file, $line) {
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -15,7 +17,11 @@ if ($uri === 'getcustomerfiles') {
 } elseif ($uri == 'checkautho') {
     require_once '../src/Security/checkAutho.php';
     exit();
+
+
+
 } elseif ($uri == 'uploadcustomerfile') {
+    header('Content-Type: application/json');
     try {
         $headers = apache_request_headers();
         if (isset($headers['Authorization'])) {
@@ -31,10 +37,13 @@ if ($uri === 'getcustomerfiles') {
         $data = array_merge($_POST, ['name' => $_FILES['file']['name'], 'userid' => $decode->user->id]);
         $file = $repo->create($data);
         $file->saveFile();
+
     }catch (Exception $exception){
-        header('Content-Type: application/json');
-        echo json_encode(['message' => 'error']);
+        echo json_encode(['message' => $exception->getMessage(),
+            'type'=> "danger"]);
     }
+
+
 
 
 //    include '../src/Filemanger/upload.php';
@@ -80,7 +89,11 @@ if ($uri === 'getcustomerfiles') {
 </div>
 <div id='navplace' class='navspace container p-2 text-center' style='font-size: 30px'></div>
 <div id='content' class='content container p-2 text-center d-flex justify-content-around'></div>
-
+<div id='liveAlertPlaceholder' > </div>
+<!--<div class="alert alert-danger alert-dismissible " role="alert">-->
+<!--    A simple danger alert—check it out!-->
+<!--    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
+<!--</div>-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>

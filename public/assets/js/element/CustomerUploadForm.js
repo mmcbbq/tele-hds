@@ -1,7 +1,8 @@
 import {AbstractView} from "../view/AbstractView.js";
 
 export class CustomerUploadForm {
-    constructor(rootSelector, sendUrl, View) {
+    constructor(rootSelector, sendUrl, view) {
+        this.view = view;
         this.root = document.querySelector(rootSelector);
         this.uploadForm = document.createElement('form');
         this.uploadForm.method = 'POST';
@@ -9,7 +10,7 @@ export class CustomerUploadForm {
 
         this.uploadFileInput = document.createElement('input');
         this.uploadFileInput.type = 'file';
-        this.uploadFileInput.addEventListener('change',this.checkFileSize.bind(this))
+        this.uploadFileInput.addEventListener('change', this.checkFileSize.bind(this))
 
 
         this.uploadNameInput = document.createElement('input');
@@ -18,56 +19,77 @@ export class CustomerUploadForm {
 
         this.uploadButton = document.createElement('button');
         this.uploadButton.innerText = 'Senden'
-        this.uploadButton.addEventListener('click',this.sendFile.bind(this))
+        this.uploadButton.addEventListener('click', this.sendFile.bind(this))
 
         this.errorMes = document.createElement('div');
 
 
-        this.uploadForm.append(this.uploadFileInput,this.uploadNameInput,this.uploadButton);
+        this.uploadForm.append(this.uploadFileInput, this.uploadNameInput, this.uploadButton);
         this.sendUrl = sendUrl;
         this.formData = new FormData();
-        this.parent = View;
+        this.parent = view;
         this.uploadDir = './download/customer/';
 
     }
 
-    async sendFile(event){
+    async sendFile(event) {
+
         const token = localStorage.getItem('jwt');
         event.preventDefault()
-        this.formData.append('file',this.uploadFileInput.files[0])
-        this.formData.append('description',this.uploadNameInput.value)
-        this.formData.append('path',this.uploadDir)
+        this.formData.append('file', this.uploadFileInput.files[0])
+        this.formData.append('description', this.uploadNameInput.value)
+        this.formData.append('path', this.uploadDir)
 
-        const response = await fetch(this.sendUrl,{
-            method:'POST',
+        const response = await fetch(this.sendUrl, {
+            method: 'POST',
             headers: {
-                'Authorization' : `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             },
             body: this.formData,
         })
         const result = await response.json()
-        await this.uploadSuccess(result);
+        this.view.render()
+        await this.uploadAlert(result);
+
+
     }
 
-    async uploadSuccess( data){
-        const messageDiv = document.createElement('div');
-        messageDiv.innerText = 'Data '+ data.data.filename + " Beschreibung "+ data.data.description + ' erfolgreich hochgeladen'
-        messageDiv.classList.add('upload-message')
-        await this.parent.render()
-        this.root.appendChild(messageDiv)
-        this.uploadForm.reset()
-        setTimeout(()=>{messageDiv.style.display = 'none'},5000)
+    async uploadAlert(data) {
+
+        const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+
+        // const appendAlert = (data.message, data.type) =>
+        const wrapper = document.createElement('div')
+        wrapper.innerHTML = [
+            `<div class="alert alert-${await data.type} alert-dismissible" role="alert">`,
+            `<!--<div class="alert alert-danger alert-dismissible" role="alert">-->`,
+            `   <div>${await data.message}</div>`,
+            `<!--   <div>error</div>-->`,
+            '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+            '</div>'
+        ].join('')
+        alertPlaceholder.append(wrapper)
     }
 
-    checkFileSize(){
+    checkFileSize() {
         const filseSize = this.uploadFileInput.files[0].size;
-        if (filseSize > 6000000){
-            this.uploadForm.reset();
-            this.errorMes.innerText = 'File to big';
+        if (filseSize > 6000000) {
+            const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+
+            // const appendAlert = (data.message, data.type) =>
+            const wrapper = document.createElement('div')
+            wrapper.innerHTML = [
+                `<div class="alert alert-danger alert-dismissible" role="alert">`,
+                `   <div>File to big max 10Mb</div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+            ].join('')
+            alertPlaceholder.append(wrapper)
 
         }
     }
-    render(){
+
+    render() {
         this.root.appendChild(this.uploadForm);
         this.root.appendChild(this.errorMes);
 

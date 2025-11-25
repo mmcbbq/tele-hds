@@ -99,7 +99,7 @@ export class Side {
         this.activeView.loginstate = this.loginstate
         this.navbar.render()
         this.activeView.render()
-        console.log(view)
+
     }
 
 
