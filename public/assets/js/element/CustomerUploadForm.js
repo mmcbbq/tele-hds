@@ -29,14 +29,6 @@ export class CustomerUploadForm {
         this.parent = View;
         this.uploadDir = './download/customer/';
 
-
-
-
-
-
-
-
-
     }
 
     async sendFile(event){
@@ -75,13 +67,9 @@ export class CustomerUploadForm {
 
         }
     }
-
-
     render(){
         this.root.appendChild(this.uploadForm);
         this.root.appendChild(this.errorMes);
 
     }
-
-
 }

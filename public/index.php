@@ -1,27 +1,47 @@
 <?php
 include '../config/loader.php';
-$uri = str_replace('/','',$_SERVER['REQUEST_URI']);
+
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
+$publicKey = file_get_contents('../src/Security/publickey.pem');
+
+$uri = str_replace('/', '', $_SERVER['REQUEST_URI']);
 if ($uri === 'getcustomerfiles') {
     $repo = new FileRepository();
     header('Content-Type: application/json');
     echo json_encode($repo->findAll());
     exit();
-}elseif ($uri == 'checkautho') {
+} elseif ($uri == 'checkautho') {
     require_once '../src/Security/checkAutho.php';
     exit();
-}
-elseif ($uri == 'uploadcustomerfile'){
+} elseif ($uri == 'uploadcustomerfile') {
+    try {
+        $headers = apache_request_headers();
+        if (isset($headers['Authorization'])) {
+            if (preg_match('/Bearer\s(\S+)/', $headers['Authorization'], $matches)) {
+                $token = $matches[1];
+                $decode = JWT::decode($token, new Key($publicKey, 'RS256'));
+            }
+        }
+        if (!in_array('admin',json_decode($decode->user->role))){
+            throw new Exception('keine Rechte');
+        }
+        $repo = new FileRepository();
+        $data = array_merge($_POST, ['name' => $_FILES['file']['name'], 'userid' => $decode->user->id]);
+        $file = $repo->create($data);
+        $file->saveFile();
+    }catch (Exception $exception){
+        header('Content-Type: application/json');
+        echo json_encode(['message' => 'error']);
+    }
 
 
-    $repo = new FileRepository();
-    $data = array_merge($_POST,['name'=>$_FILES['file']['name'],'userid'=>1]);
-    $file = $repo->create($data);
-    $file->saveFile();
 //    include '../src/Filemanger/upload.php';
     exit();
-}elseif ($uri === 'login') {
-require_once '../src/Security/login.php';
-}elseif ($uri === 'signup'){
+} elseif ($uri === 'login') {
+    require_once '../src/Security/login.php';
+} elseif ($uri === 'signup') {
     $repo = new UserRepository();
 //    $data = ['email'=>'test2@test.de','password'=>'123'];
     $user = $repo->create($_POST);
@@ -51,7 +71,7 @@ require_once '../src/Security/login.php';
     <script type='module' src='assets/js/main.js' defer></script>
     <link rel='stylesheet' type='text/css' href='assets/css/style.css'>
 </head>
-<body >
+<body>
 <div class="container text-left p-2" style='margin-top: 40px'>
     <span class='tele display-3 fw-bold px-3 ' style=' border-radius: 20px'>
     TELE-HDS

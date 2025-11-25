@@ -10,7 +10,7 @@ import {NavDropDown} from "./element/NavDropDown";
 import {LogoutView} from './view/LogoutView';
 export class Side {
     constructor() {
-
+        this.loginstate = false;
         this.startView = new StartView('Start')
         this.businessView = new BusinessView('Business')
         this.CostumerView = new CostumerView('Kundenbereich')
@@ -18,7 +18,7 @@ export class Side {
         this.downloadView = new StoerungView('Störung')
         this.speedTestView = new StoerungView('Störung')
         this.signupView = new SignupView('Signup')
-        this.loginView = new LoginView('Login')
+        this.loginView = new LoginView('Login',this.render.bind(this,this.startView))
         this.logoutView = new LogoutView('Logout')
 
         this.navItemStart = new Navitem(this.startView, this.render.bind(this, this.startView))
@@ -50,9 +50,9 @@ export class Side {
 
     }
 
-    logout(){
+   async logout(){
         localStorage.removeItem('jwt')
-        this.render()
+       await this.render(this.startView)
     }
 
 
@@ -89,14 +89,17 @@ export class Side {
     async render(view = this.activeView) {
         let loginState = await this.checkAutho()
         if (loginState.login){
-
+            this.loginstate = true;
             this.navbar.changeLogin(this.navItemHallo)
         }else {
+            this.loginstate = false;
             this.navbar.changeLogin(this.navItemLogin)
         }
         this.activeView = view
+        this.activeView.loginstate = this.loginstate
         this.navbar.render()
         this.activeView.render()
+        console.log(view)
     }
 
 

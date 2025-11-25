@@ -18,7 +18,8 @@ try {
             echo json_encode([
                 'login' => true,
                 'message' => "drin",
-                'email' => $decode->user->email
+                'email' => $decode->user->email,
+                'role' => $decode->user->role
             ]);
             exit();
         }

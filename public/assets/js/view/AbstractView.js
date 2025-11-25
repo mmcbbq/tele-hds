@@ -2,10 +2,11 @@
 
 export class AbstractView{
 
-    constructor(name, rootSelector = '.content') {
+    constructor(name, rootSelector = '.content',loginstate= false) {
         this.rootSelector = rootSelector;
         this.root =  document.querySelector(rootSelector);
         this.name = name;
+        this.loginstate = loginstate;
     }
 
     render(){

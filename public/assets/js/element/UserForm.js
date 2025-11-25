@@ -1,6 +1,7 @@
 export class UserForm {
 
-    constructor(rootSelector, sendURL, classes, buttonText) {
+    constructor(rootSelector, sendURL, classes, buttonText, callback) {
+        this.callback = callback;
         this.root = document.querySelector(rootSelector);
         this.form = document.createElement('form');
         this.form.method = 'POST';
@@ -15,6 +16,10 @@ export class UserForm {
         this.sendBut = document.createElement('button');
         this.sendBut.innerText = buttonText;
         this.sendBut.addEventListener('click', this.action.bind(this));
+        // this.sendBut.addEventListener('click', ()=>{
+        //     this.action.bind(this)
+        //     callback()
+        // });
         this.formData = new FormData();
         this.sendURL = sendURL;
 
@@ -25,6 +30,7 @@ export class UserForm {
         this.formData.append('email', this.emailInput.value)
         this.formData.append('password', this.passwordInput.value)
 
+
         const response = await fetch(this.sendURL, {
             method: 'POST',
             body: this.formData
@@ -33,11 +39,12 @@ export class UserForm {
 
         const result = await response.json();
         localStorage.setItem('jwt',await result.token)
-        console.log(result.token)
+        this.callback()
         return result
     }
 
     render() {
+        this.form.reset()
         this.form.append(this.emailInput, this.passwordInput, this.sendBut)
         this.root.appendChild(this.form)
     }

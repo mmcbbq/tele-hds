@@ -40,7 +40,8 @@ class User implements EntityInterface, JsonSerializable
     {
         return [
             'email'=> $this->getEmail(),
-            'id'=> $this->getId()
+            'id'=> $this->getId(),
+            'role' => $this->role
         ];
     }
 }
