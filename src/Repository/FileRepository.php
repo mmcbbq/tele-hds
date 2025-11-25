@@ -6,7 +6,7 @@ class FileRepository extends AbstractRepository
     public function findAll()
     {
         $con = $this->dbcon();
-        $sql = 'SELECT * FROM file';
+        $sql = 'SELECT file.*, user.email FROM file left join user on user.id = file.userid';
         $stat = $con->prepare($sql);
         $stat->execute();
         return $stat->fetchAll(PDO::FETCH_CLASS,"File");

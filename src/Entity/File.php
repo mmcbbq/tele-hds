@@ -85,7 +85,8 @@ class File implements EntityInterface, JsonSerializable
             'name' => $this->name,
             'path' => $this->path,
             'description'=> $this->description,
-            'userid' => $this->userid
+            'userid' => $this->userid,
+            'email' => $this->email
         ];
     }
 }
