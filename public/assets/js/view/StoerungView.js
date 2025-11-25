@@ -3,8 +3,8 @@ import {AbstractView} from "./AbstractView.js";
 export class StoerungView extends AbstractView{
 
 
-    constructor() {
-        super();
+    constructor(name) {
+        super(name);
         this.rowDiv = document.createElement('div');
         this.mailLink = document.createElement('a');
         this.mailLink.href = 'mailto:schwarze@bbq.de';

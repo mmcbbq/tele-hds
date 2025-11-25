@@ -1,16 +1,15 @@
 export class Navbar {
-    constructor(rootSelector) {
+    constructor(rootSelector, items) {
         this.root = document.querySelector(rootSelector);
-        this.items = [];
+        this.items = items;
 
 
     }
 
-    addItem(item){
-        this.items.push(item);
-    }
 
     render() {
+        this.root.replaceChildren();
+        // document.querySelector('.navbar').replaceChildren();
 
 
         const nav = document.createElement('nav');
@@ -20,13 +19,14 @@ export class Navbar {
 
         const navUl = document.createElement('ul')
         navUl.classList.add("nav", "nav-underline");
-
+        navUl.replaceChildren();
         this.items.forEach(item => {
-            const navItem = item.render(navUl);
+                    const navItem = item.render(navUl);
 
-        })
+                })
         nav.appendChild(navUl)
 
         this.root.appendChild(nav);
+        // this.root.innerHTML = "";
     }
 }

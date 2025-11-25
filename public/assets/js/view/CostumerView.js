@@ -3,8 +3,8 @@ import {CustomerUploadForm} from "../element/CustomerUploadForm.js";
 
 export class CostumerView extends AbstractView {
 
-    constructor() {
-        super();
+    constructor(name) {
+        super(name);
         this.uploadForm = new CustomerUploadForm('.content', 'uploadcustomerfile', this)
         this.filedir = './download/customer/'
     }

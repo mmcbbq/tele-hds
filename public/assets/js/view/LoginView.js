@@ -2,9 +2,8 @@ import {AbstractView} from "./AbstractView.js";
 import {UserForm} from "../element/UserForm.js";
 
 export class LoginView extends AbstractView {
-    constructor(navbar) {
-        super();
-        this.navbar = navbar;
+    constructor(name) {
+        super(name);
         this.form = new UserForm(this.rootSelector, 'login', 'form', 'login');
     }
 

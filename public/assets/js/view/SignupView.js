@@ -2,8 +2,8 @@ import {AbstractView} from "./AbstractView.js";
 import {UserForm} from "../element/UserForm.js";
 
 export class SignupView extends AbstractView{
-    constructor() {
-        super()
+    constructor(name) {
+        super(name)
         this.form = new UserForm(this.rootSelector,'signup','form','signup');
     }
     render() {

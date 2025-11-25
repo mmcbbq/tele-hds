@@ -2,8 +2,8 @@ import {AbstractView} from "./AbstractView.js";
 import {DslBusiness} from "../element/DslBusiness.js";
 
 export class BusinessView extends AbstractView {
-    constructor() {
-        super();
+    constructor(name) {
+        super(name);
         this.offers = [
             new DslBusiness('IP-Zugang Standard Business',
                 '59.99€',

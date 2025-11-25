@@ -3,8 +3,9 @@ import {DslUser} from "../element/DslUser.js";
 
 export class StartView extends AbstractView {
 
-    constructor() {
-        super();
+
+    constructor(name) {
+        super(name)
 
         this.offers = [
             new DslUser('DSL 100', '19.95', '100', 'VDSL', 'Monatlich Kündbar', '20€ einmalige Einrichtung', '.content',true),
