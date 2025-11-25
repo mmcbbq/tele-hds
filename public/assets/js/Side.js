@@ -7,7 +7,7 @@ import {CostumerView} from "./view/CostumerView";
 import {SignupView} from "./view/SignupView";
 import {LoginView} from "./view/LoginView";
 import {NavDropDown} from "./element/NavDropDown";
-
+import {LogoutView} from './view/LogoutView';
 export class Side {
     constructor() {
 
@@ -19,22 +19,85 @@ export class Side {
         this.speedTestView = new StoerungView('Störung')
         this.signupView = new SignupView('Signup')
         this.loginView = new LoginView('Login')
+        this.logoutView = new LogoutView('Logout')
 
+        this.navItemStart = new Navitem(this.startView, this.render.bind(this, this.startView))
+        this.navItmenBusiness = new Navitem(this.businessView, this.render.bind(this, this.businessView))
+        this.navItemService = new NavDropDown('Service',
+            [this.stoerungView,
+                this.downloadView,
+                this.speedTestView],
+
+            [this.render.bind(this, this.stoerungView),
+                this.render.bind(this, this.stoerungView),
+                this.render.bind(this, this.stoerungView)
+            ])
+        this.navItemCustomer = new Navitem(this.CostumerView, this.render.bind(this, this.CostumerView))
+        this.navItemLogin = new NavDropDown('Login', [this.loginView, this.signupView],//
+            [this.render.bind(this, this.loginView), this.render.bind(this, this.signupView)])//
+
+        this.navItemHallo = new Navitem(this.logoutView,this.logout.bind(this))
+
+        // DOnt like this one
         this.navbar = new Navbar(".navspace", [
-            new Navitem(this.startView, this.render.bind(this, this.startView)),
-            new Navitem(this.businessView, this.render.bind(this, this.businessView)),
-            new NavDropDown('Service', [this.stoerungView, this.downloadView, this.speedTestView], [this,this.render.bind(this, this.stoerungView),this,this.render.bind(this, this.stoerungView),this,this.render.bind(this, this.stoerungView)]),
-            new Navitem(this.CostumerView, this.render.bind(this, this.CostumerView))
-        ]);
+            this.navItemStart,
+            this.navItmenBusiness,
+            this.navItemService,
+            this.navItemCustomer,
+            this.navItemLogin,
+        ])
         this.activeView = this.startView
+
+    }
+
+    logout(){
+        localStorage.removeItem('jwt')
+        this.render()
     }
 
 
-    render(view = this.activeView) {
+
+    async checkAutho() {
+        const token = localStorage.getItem('jwt')
+
+        if (token == null){
+            return {
+                login: false,
+                message: "nicht drin",
+            }
+        }else{
+            const response = await fetch('checkautho', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+            })
+
+            const result = await response.json()
+            return result
+        }
 
 
+    }
+
+
+
+
+
+
+
+    async render(view = this.activeView) {
+        let loginState = await this.checkAutho()
+        if (loginState.login){
+
+            this.navbar.changeLogin(this.navItemHallo)
+        }else {
+            this.navbar.changeLogin(this.navItemLogin)
+        }
         this.activeView = view
         this.navbar.render()
         this.activeView.render()
     }
+
+
 }

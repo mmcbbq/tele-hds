@@ -38,7 +38,6 @@ export class NavDropDown{
                     const dropdownLi = document.createElement('li');
                     const dropdownA = document.createElement('a');
                     dropdownA.classList.add("dropdown-item");
-                    console.log(item.name)
                     dropdownA.innerText = item.name;
                     dropdownA.addEventListener('click', this.callbacks[index])
                     dropdownLi.appendChild(dropdownA);

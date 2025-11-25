@@ -29,4 +29,10 @@ export class Navbar {
         this.root.appendChild(nav);
         // this.root.innerHTML = "";
     }
+
+
+    changeLogin(navitem){
+        this.items[4] = navitem;
+
+    }
 }
