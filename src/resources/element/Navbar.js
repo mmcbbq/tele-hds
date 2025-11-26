@@ -1,7 +1,8 @@
 export class Navbar {
-    constructor(rootSelector, items) {
+    constructor(rootSelector, items, login) {
         this.root = document.querySelector(rootSelector);
         this.items = items;
+        this.login = login;
 
 
     }
@@ -25,14 +26,28 @@ export class Navbar {
 
                 })
         nav.appendChild(navUl)
+        const loginUl = document.createElement('ul');
+        loginUl.classList.add('navbar-nav', 'ms-auto','p-3')
+        this.login.render(loginUl)
+        nav.appendChild(loginUl)
+        //     loginUl.innerHTML = [
+    //         '<li class="nav-item">',
+    //         `<a className="nav-link" href="#">$</a>`,
+    // `</li>`
+    //     ].join('');
+    //
+    //     nav.append(loginUl)
+
 
         this.root.appendChild(nav);
         // this.root.innerHTML = "";
-    }
+    };
+
+
 
 
     changeLogin(navitem){
-        this.items[4] = navitem;
+        this.login = navitem;
 
     }
 }

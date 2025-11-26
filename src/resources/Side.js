@@ -46,8 +46,9 @@ export class Side {
             this.navItmenBusiness,
             this.navItemService,
             this.navItemCustomer,
-            this.navItemLogin,
-        ])
+
+        ],
+            this.navItemLogin,)
         this.activeView = this.startView
 
     }
