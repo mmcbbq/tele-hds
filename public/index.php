@@ -7,21 +7,58 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 $publicKey = file_get_contents('../src/Security/publickey.pem');
-
 $uri = str_replace('/', '', $_SERVER['REQUEST_URI']);
+header('Content-Type: application/json');
+
+
 if ($uri === 'getcustomerfiles') {
+
+
     $repo = new FileRepository();
-    header('Content-Type: application/json');
-    echo json_encode($repo->findAll());
+    echo json_encode($repo->findAllbyPath('./download/customer/'));
     exit();
-} elseif ($uri == 'checkautho') {
+
+
+}elseif ($uri === 'getservicefiles'){
+
+    $repo = new FileRepository();
+    echo json_encode($repo->findAllbyPath('./download/service/'));
+    exit();
+
+}
+
+
+elseif ($uri == 'checkautho') {
     require_once '../src/Security/checkAutho.php';
     exit();
 
 
-
 } elseif ($uri == 'uploadcustomerfile') {
-    header('Content-Type: application/json');
+    try {
+        $headers = apache_request_headers();
+        if (isset($headers['Authorization'])) {
+            if (preg_match('/Bearer\s(\S+)/', $headers['Authorization'], $matches)) {
+                $token = $matches[1];
+                $decode = JWT::decode($token, new Key($publicKey, 'RS256'));
+            }
+        }
+        if (!in_array('user',json_decode($decode->user->role))){
+            throw new Exception('keine Rechte');
+        }
+        $repo = new FileRepository();
+        $data = array_merge($_POST, ['name' => $_FILES['file']['name'], 'userid' => $decode->user->id]);
+        $file = $repo->create($data);
+        $file->saveFile('./download/customer/');
+
+    }catch (Exception $exception){
+        echo json_encode(['message' => $exception->getMessage(),
+            'type'=> "danger"]);
+    }
+    exit();
+
+
+
+}elseif ($uri == 'uploadservicefile') {
     try {
         $headers = apache_request_headers();
         if (isset($headers['Authorization'])) {
@@ -36,7 +73,7 @@ if ($uri === 'getcustomerfiles') {
         $repo = new FileRepository();
         $data = array_merge($_POST, ['name' => $_FILES['file']['name'], 'userid' => $decode->user->id]);
         $file = $repo->create($data);
-        $file->saveFile();
+        $file->saveFile('./download/service/');
 
     }catch (Exception $exception){
         echo json_encode(['message' => $exception->getMessage(),
@@ -44,23 +81,25 @@ if ($uri === 'getcustomerfiles') {
     }
 
 
-
-
-//    include '../src/Filemanger/upload.php';
     exit();
-} elseif ($uri === 'login') {
-    require_once '../src/Security/login.php';
-} elseif ($uri === 'signup') {
-    $repo = new UserRepository();
-//    $data = ['email'=>'test2@test.de','password'=>'123'];
-    $user = $repo->create($_POST);
+}
 
-//    header('Content-Type: application/json');
-//    echo json_encode($user);
+elseif ($uri === 'signup'){
+    $repo = new UserRepository();
+    $user = $repo->create($_POST);
+    echo json_encode([
+            'message'=>'user created'
+    ]);
     exit();
 
 }
 
+
+elseif ($uri === 'login') {
+    require_once '../src/Security/login.php';
+}
+
+header('Content-Type: text/html');
 
 ?>
 <!doctype html>

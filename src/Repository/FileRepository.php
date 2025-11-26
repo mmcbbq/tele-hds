@@ -3,7 +3,7 @@
 class FileRepository extends AbstractRepository
 {
 
-    public function findAll()
+    public function findAll():array
     {
         $con = $this->dbcon();
         $sql = 'SELECT file.*, user.email FROM file left join user on user.id = file.userid';
@@ -11,6 +11,21 @@ class FileRepository extends AbstractRepository
         $stat->execute();
         return $stat->fetchAll(PDO::FETCH_CLASS,"File");
     }
+
+    public function findAllbyPath(string $path):array
+    {
+        $con = $this->dbcon();
+        $sql = 'SELECT file.*, user.email FROM file left join user on user.id = file.userid where file.path = :path';
+        $stat = $con->prepare($sql);
+        $stat->execute([':path'=>$path]);
+        return $stat->fetchAll(PDO::FETCH_CLASS,"File");
+    }
+
+
+
+
+
+
 
     public function findById(int $id):File
     {
@@ -23,6 +38,7 @@ class FileRepository extends AbstractRepository
 
     public function create(array $data):File
     {
+
         $con = $this->dbcon();
         $sql = 'INSERT INTO file (name, path, description, userid) VALUES
                                                        (:name, :path, :description, :userid) ';

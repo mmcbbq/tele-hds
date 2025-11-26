@@ -1,7 +1,7 @@
 import {AbstractView} from "../view/AbstractView.js";
 
 export class CustomerUploadForm {
-    constructor(rootSelector, sendUrl, view) {
+    constructor(rootSelector, sendUrl, view, dir) {
         this.view = view;
         this.root = document.querySelector(rootSelector);
         this.uploadForm = document.createElement('form');
@@ -28,7 +28,7 @@ export class CustomerUploadForm {
         this.sendUrl = sendUrl;
         this.formData = new FormData();
         this.parent = view;
-        this.uploadDir = './download/customer/';
+        this.uploadDir = dir
 
     }
 

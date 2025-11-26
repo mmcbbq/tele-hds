@@ -57,11 +57,11 @@ class File implements EntityInterface, JsonSerializable
         $this->userid = $userid;
     }
 
-    public function saveFile(): void
+    public function saveFile(string $dir): void
     {
         header('Content-Type: application/json');
         $filename = $_FILES['file']['name'];
-        $filepath = './download/customer/' . basename($_FILES['file']['name']);
+        $filepath = $dir . basename($_FILES['file']['name']);
         $description = $_POST['description'];
         if (move_uploaded_file($_FILES['file']['tmp_name'], $filepath)) {
             $response = [

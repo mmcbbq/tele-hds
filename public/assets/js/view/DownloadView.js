@@ -1,18 +1,17 @@
 import {AbstractView} from "./AbstractView.js";
 import {CustomerUploadForm} from "../element/CustomerUploadForm.js";
 
-export class CostumerView extends AbstractView {
-
+export class DownloadView    extends AbstractView {
     constructor(name) {
         super(name);
-        this.uploadForm = new CustomerUploadForm('.content', 'uploadcustomerfile', this,'./download/customer/')
-        this.filedir = './download/customer/'
+        this.uploadForm = new CustomerUploadForm('.content', 'uploadservicefile', this,'./download/service/')
+        this.filedir = './download/service/'
     }
 
 
     async render() {
         this.setContainerClasses(['content', 'container', "justify-content-center"])
-        const data = await this.getFiles('getcustomerfiles')
+        const data = await this.getFiles('getservicefiles')
         let color = '';
         const rowContainer = document.createElement('div');
         rowContainer.classList.add('row', 'row-cols-auto')
@@ -44,11 +43,6 @@ export class CostumerView extends AbstractView {
                 filesDiv.appendChild(filesBody);
                 rowContainer.appendChild(filesDiv);
 
-
-                // line.appendChild(fileLink);
-                // this.root.appendChild(line);
-
-
             }
         } else {
             const lineDiv = document.createElement('div');
@@ -56,7 +50,7 @@ export class CostumerView extends AbstractView {
             this.root.appendChild(lineDiv);
         }
         this.root.appendChild(rowContainer)
-        if (this.loginstate){
+        if (this.loginstate.login && JSON.parse(this.loginstate.role).includes('admin') ){
             this.uploadForm.render()
         }
     }

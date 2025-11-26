@@ -8,14 +8,16 @@ import {SignupView} from "./view/SignupView";
 import {LoginView} from "./view/LoginView";
 import {NavDropDown} from "./element/NavDropDown";
 import {LogoutView} from './view/LogoutView';
+import {DownloadView} from "./view/DownloadView";
 export class Side {
     constructor() {
-        this.loginstate = false;
+        this.loginuser = false;
+
         this.startView = new StartView('Start')
         this.businessView = new BusinessView('Business')
         this.CostumerView = new CostumerView('Kundenbereich')
         this.stoerungView = new StoerungView('Störung')
-        this.downloadView = new StoerungView('Störung')
+        this.downloadView = new DownloadView('Downloads')
         this.speedTestView = new StoerungView('Störung')
         this.signupView = new SignupView('Signup')
         this.loginView = new LoginView('Login',this.render.bind(this,this.startView))
@@ -29,7 +31,7 @@ export class Side {
                 this.speedTestView],
 
             [this.render.bind(this, this.stoerungView),
-                this.render.bind(this, this.stoerungView),
+                this.render.bind(this, this.downloadView),
                 this.render.bind(this, this.stoerungView)
             ])
         this.navItemCustomer = new Navitem(this.CostumerView, this.render.bind(this, this.CostumerView))
@@ -88,15 +90,16 @@ export class Side {
 
     async render(view = this.activeView) {
         let loginState = await this.checkAutho()
+
         if (loginState.login){
-            this.loginstate = true;
+            this.loginuser = loginState;
             this.navbar.changeLogin(this.navItemHallo)
         }else {
-            this.loginstate = false;
+            this.loginuser = false;
             this.navbar.changeLogin(this.navItemLogin)
         }
         this.activeView = view
-        this.activeView.loginstate = this.loginstate
+        this.activeView.loginstate = this.loginuser
         this.navbar.render()
         this.activeView.render()
 
