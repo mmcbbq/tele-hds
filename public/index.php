@@ -1,8 +1,9 @@
 <?php
 include '../config/loader.php';
-//set_error_handler(function($severity, $message, $file, $line) {
-//    throw new ErrorException($message, 0, $severity, $file, $line);
-//});
+set_error_handler(function ($severity, $message, $file, $line) {
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
+
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -19,16 +20,13 @@ if ($uri === 'getcustomerfiles') {
     exit();
 
 
-}elseif ($uri === 'getservicefiles'){
+} elseif ($uri === 'getservicefiles') {
 
     $repo = new FileRepository();
     echo json_encode($repo->findAllbyPath('./download/service/'));
     exit();
 
-}
-
-
-elseif ($uri == 'checkautho') {
+} elseif ($uri == 'checkautho') {
     require_once '../src/Security/checkAutho.php';
     exit();
 
@@ -42,7 +40,7 @@ elseif ($uri == 'checkautho') {
                 $decode = JWT::decode($token, new Key($publicKey, 'RS256'));
             }
         }
-        if (!in_array('user',json_decode($decode->user->role))){
+        if (!in_array('user', json_decode($decode->user->role))) {
             throw new Exception('keine Rechte');
         }
         $repo = new FileRepository();
@@ -50,15 +48,14 @@ elseif ($uri == 'checkautho') {
         $file = $repo->create($data);
         $file->saveFile('./download/customer/');
 
-    }catch (Exception $exception){
+    } catch (Exception $exception) {
         echo json_encode(['message' => $exception->getMessage(),
-            'type'=> "danger"]);
+            'type' => "danger"]);
     }
     exit();
 
 
-
-}elseif ($uri == 'uploadservicefile') {
+} elseif ($uri == 'uploadservicefile') {
     try {
         $headers = apache_request_headers();
         if (isset($headers['Authorization'])) {
@@ -67,7 +64,7 @@ elseif ($uri == 'checkautho') {
                 $decode = JWT::decode($token, new Key($publicKey, 'RS256'));
             }
         }
-        if (!in_array('admin',json_decode($decode->user->role))){
+        if (!in_array('admin', json_decode($decode->user->role))) {
             throw new Exception('keine Rechte');
         }
         $repo = new FileRepository();
@@ -75,27 +72,34 @@ elseif ($uri == 'checkautho') {
         $file = $repo->create($data);
         $file->saveFile('./download/service/');
 
-    }catch (Exception $exception){
+    } catch (Exception $exception) {
         echo json_encode(['message' => $exception->getMessage(),
-            'type'=> "danger"]);
+            'type' => "danger"]);
     }
 
 
     exit();
-}
+} elseif ($uri === 'signup') {
 
-elseif ($uri === 'signup'){
-    $repo = new UserRepository();
-    $user = $repo->create($_POST);
-    echo json_encode([
-            'message'=>'user created'
-    ]);
-    exit();
+    try {
+        $repo = new UserRepository();
+        $user = $repo->create($_POST);
+        echo json_encode([
+            'message' => 'user created',
+            'type' => 'success'
+        ]);
+        exit();
+    } catch (Exception $exception) {
+        echo json_encode(
+            [
+                'message' => 'Fehler',
+                'type' => "danger",
+                'error' => true
+            ]);
+    }
 
-}
 
-
-elseif ($uri === 'login') {
+} elseif ($uri === 'login') {
     require_once '../src/Security/login.php';
 }
 
@@ -128,11 +132,7 @@ header('Content-Type: text/html');
 </div>
 <div id='navplace' class='navspace container p-2 text-center' style='font-size: 30px'></div>
 <div id='content' class='content container p-2 text-center d-flex justify-content-around'></div>
-<div id='liveAlertPlaceholder' > </div>
-<!--<div class="alert alert-danger alert-dismissible " role="alert">-->
-<!--    A simple danger alert—check it out!-->
-<!--    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
-<!--</div>-->
+<div id='liveAlertPlaceholder'></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>

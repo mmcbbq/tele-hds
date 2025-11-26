@@ -3,6 +3,7 @@ FROM php:8.3-apache
 RUN    docker-php-ext-install  pdo pdo_mysql
 COPY project.conf /etc/apache2/sites-available
 RUN echo 'upload_max_filesize = 10M' > "$PHP_INI_DIR/conf.d/my-php.ini"
+RUN echo 'display_errors = Off' >> "$PHP_INI_DIR/conf.d/my-php.ini"
 RUN a2ensite project.conf
 RUN a2enmod rewrite
 

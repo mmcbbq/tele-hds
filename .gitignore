@@ -1,6 +1,13 @@
 # Created by https://www.toptal.com/developers/gitignore/api/phpstorm,composer
 # Edit at https://www.toptal.com/developers/gitignore?templates=phpstorm,composer
 
+# my -------------------
+src/Security/privatekey.pem
+src/Security/publickey.pem
+#------------------
+
+
+
 ### Composer ###
 composer.phar
 /vendor/

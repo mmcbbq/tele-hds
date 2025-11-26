@@ -9,6 +9,7 @@ import {LoginView} from "./view/LoginView";
 import {NavDropDown} from "./element/NavDropDown";
 import {LogoutView} from './view/LogoutView';
 import {DownloadView} from "./view/DownloadView";
+import {SpeedtestView} from "./view/SpeedtestView";
 export class Side {
     constructor() {
         this.loginuser = false;
@@ -18,21 +19,23 @@ export class Side {
         this.CostumerView = new CostumerView('Kundenbereich')
         this.stoerungView = new StoerungView('Störung')
         this.downloadView = new DownloadView('Downloads')
-        this.speedTestView = new StoerungView('Störung')
-        this.signupView = new SignupView('Signup')
+        this.speedTestView = new SpeedtestView('Speedtest')
+        this.signupView = new SignupView('Signup',this.render.bind(this,this.startView))
         this.loginView = new LoginView('Login',this.render.bind(this,this.startView))
         this.logoutView = new LogoutView('Logout')
 
         this.navItemStart = new Navitem(this.startView, this.render.bind(this, this.startView))
         this.navItmenBusiness = new Navitem(this.businessView, this.render.bind(this, this.businessView))
         this.navItemService = new NavDropDown('Service',
-            [this.stoerungView,
+            [
+                this.stoerungView,
                 this.downloadView,
                 this.speedTestView],
 
-            [this.render.bind(this, this.stoerungView),
+            [
+                this.render.bind(this, this.stoerungView),
                 this.render.bind(this, this.downloadView),
-                this.render.bind(this, this.stoerungView)
+                this.render.bind(this, this.speedTestView)
             ])
         this.navItemCustomer = new Navitem(this.CostumerView, this.render.bind(this, this.CostumerView))
         this.navItemLogin = new NavDropDown('Login', [this.loginView, this.signupView],//

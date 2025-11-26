@@ -1,10 +1,11 @@
 import {AbstractView} from "./AbstractView.js";
-import {UserForm} from "../element/UserForm.js";
+
+import {SignupForm} from "../element/SignupForm";
 
 export class SignupView extends AbstractView{
-    constructor(name) {
+    constructor(name,callback) {
         super(name)
-        this.form = new UserForm(this.rootSelector,'signup','form','signup');
+        this.form = new SignupForm(this.rootSelector,'signup','form','signup',callback);
     }
     render() {
         this.setContainerClasses(['content', 'container', "justify-content-center"])
