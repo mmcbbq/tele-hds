@@ -116,7 +116,7 @@ header('Content-Type: text/html');
 
 
     <title>Document</title>
-    <script type='module' src='assets/js/main.js' defer></script>
+    <script type='module' src='assets/js/main.mjs' defer></script>
     <link rel='stylesheet' type='text/css' href='assets/css/style.css'>
 </head>
 <body>
