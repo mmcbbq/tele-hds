@@ -101,6 +101,21 @@ if ($uri === 'getcustomerfiles') {
 
 } elseif ($uri === 'login') {
     require_once '../src/Security/login.php';
+} elseif ($uri === "speedtestDown") {
+$size = 1024 ;
+
+header('Content-Type: application/octet-stream');
+header('Content-Length: ' . $size);
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+// Output random data
+
+//    random_bytes()
+//echo str_repeat("0", $size);
+    echo random_bytes($size);
+
+
 }
 
 header('Content-Type: text/html');

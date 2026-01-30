@@ -9,10 +9,10 @@ create table user(
     role json
 );
 
-INSERT INTO user(email, password)
-values ('Peter', 'Pan'),
-       ('Donald', 'Trump'),
-       ('George', 'Busch');
+# INSERT INTO user(email, password)
+# values ('Peter', 'Pan'),
+#        ('Donald', 'Trump'),
+#        ('George', 'Busch');
 
 CREATE TABLE file(
     id int auto_increment PRIMARY KEY ,

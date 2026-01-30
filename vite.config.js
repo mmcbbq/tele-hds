@@ -5,7 +5,7 @@ export default defineConfig({
     publicDir: false,
     build: {
     lib:{
-        entry: 'src/resources/main.js',
+        entry: 'src/Resources/main.js',
         name: 'MainJS',
         fileName: 'main',
     },
